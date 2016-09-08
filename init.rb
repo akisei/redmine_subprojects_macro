@@ -5,4 +5,7 @@ Redmine::Plugin.register :redmine_subprojects_macro do
   version '0.0.1'
   url 'https://github.com/akisei/redmine_subprojects_macro'
   author_url 'https://github.com/akisei'
+
+  require_dependency 'subprojects_macro'
 end
+
