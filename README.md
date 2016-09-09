@@ -12,6 +12,14 @@ git clone https://github.com/akisei/redmine_subprojects_macro.git
 
 Restart Redmine.
 
+# Usage
+
+Please type the following on wiki.
+
+```
+{{subprojects}}
+```
+
 # License
 
 MIT
