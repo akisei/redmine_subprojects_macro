@@ -17,8 +17,23 @@ Restart Redmine.
 Please type the following on wiki.
 
 ```
-{{subprojects}}
+{{subprojects}} # same as {{subprojects(0)}}
 ```
+e.g.
+* subproject_1
+* subproject_2
+* ...
+
+Can you specify the depth of the hierarchy in the argument. (from 0.0.2)
+
+```
+{{subprojects(1)}}
+```
+e.g.
+* subproject_1
+  * subproject_1_1
+  * subproject_1_2
+* ...
 
 # License
 
