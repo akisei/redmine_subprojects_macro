@@ -3,27 +3,27 @@ require 'redmine'
 module SubprojectsMacro
   Redmine::WikiFormatting::Macros.register do
     desc "Displays subprojects list. Examples:\n\n" +
-             "{{subprojects}}"
+             "{{subprojects}} -- same as {{subprojects(depth=0)}} \n" +
+             "{{subprojects(depth=2)}} -- display 2 levels nesting"
+
     macro :subprojects do |obj, args|
       return '' unless @project
 
-      depth = args.first.to_i
+      args, options = extract_macro_options(args, :depth)
+      options[:depth] = options[:depth].present? ? options[:depth].to_i : 0
 
       render_subprojects = lambda do |p, c, d|
-        subprojects = p.children.visible.to_a
-        next unless subprojects.any?
+        ss = p.children.visible.to_a
+        next unless ss.any?
         c << "<ul>\n"
-        subprojects.each do |subproject|
-          c << "<li>" + link_to(subproject, project_path(subproject)) + "</li>\n"
-          render_subprojects.call(subproject, c, d - 1) if d > 0
+        ss.each do |s|
+          c << "<li>" + link_to(s, project_path(s)) + "</li>\n"
+          render_subprojects.call(s, c, d - 1) if d > 0
         end
         c << "</ul>\n"
-        c
       end
 
-      content = ''
-      render_subprojects.call(@project, content, depth)
-      content.html_safe
+      render_subprojects.call(@project, '', options[:depth]).html_safe
     end
   end
 end
