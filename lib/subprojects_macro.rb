@@ -23,7 +23,8 @@ module SubprojectsMacro
         c << "</ul>\n"
       end
 
-      render_subprojects.call(@project, '', options[:depth]).html_safe
+      html = render_subprojects.call(@project, '', options[:depth])
+      html.nil? ? '' : html.html_safe
     end
   end
 end
