@@ -7,22 +7,22 @@ module SubprojectsMacro
     macro :subprojects do |obj, args|
       return '' unless @project
 
-      hierarchy = args.first.to_i
+      depth = args.first.to_i
 
-      render_subprojects = lambda do |project, html, hierarchy|
-        subprojects = project.children.visible.to_a
+      render_subprojects = lambda do |p, c, d|
+        subprojects = p.children.visible.to_a
         next unless subprojects.any?
-        html << "<ul>\n"
+        c << "<ul>\n"
         subprojects.each do |subproject|
-          html << "<li>" + link_to(subproject, project_path(subproject)) + "</li>\n"
-          render_subprojects.call(subproject, html, hierarchy - 1) if hierarchy > 0
+          c << "<li>" + link_to(subproject, project_path(subproject)) + "</li>\n"
+          render_subprojects.call(subproject, c, d - 1) if d > 0
         end
-        html << "</ul>\n"
-        html
+        c << "</ul>\n"
+        c
       end
 
       content = ''
-      render_subprojects.call(@project, content, hierarchy)
+      render_subprojects.call(@project, content, depth)
       content.html_safe
     end
   end
